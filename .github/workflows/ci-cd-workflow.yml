@@ -14,6 +14,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Show current directory
+        run: pwd
+      - name: List directory contents
+        run: ls -al
       - name: Verify changeset
         run: |
           CHANGES=$(find .changeset -name '*.md' -not -name '.README.md' | wc -l)
