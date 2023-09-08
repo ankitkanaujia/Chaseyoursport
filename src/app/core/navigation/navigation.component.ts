@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoggerService } from 'src/app/logger/logger.service';
 
 @Component({
   selector: 'app-navigation',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationComponent implements OnInit {
   text: string = '';
-  constructor() {}
+  constructor(private loggerService: LoggerService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loggerService.log('navigation');
+  }
 }

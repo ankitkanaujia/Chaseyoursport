@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoggerService } from 'src/app/logger/logger.service';
 
 @Component({
   selector: 'app-footer',
@@ -6,10 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
-
-  constructor() { }
+  constructor(private loggerService: LoggerService) {}
 
   ngOnInit(): void {
+    this.loggerService.log('Footer');
   }
-
 }
