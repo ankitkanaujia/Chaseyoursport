@@ -32,12 +32,21 @@ jobs:
     needs: changelog
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Cache Node modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 16.18.0
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
   lint:
     needs: setup-node
