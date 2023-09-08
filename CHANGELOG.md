@@ -1,5 +1,11 @@
 # chaseyoursport
 
+## 0.0.3
+
+### Patch Changes
+
+- 92da948: Adding CI/CD workflow
+
 ## 0.0.2
 
 ### Patch Changes
