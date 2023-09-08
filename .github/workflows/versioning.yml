@@ -15,7 +15,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.GH_PAT }} # replace GH_PAT with the name of your token if different
+          token: ${{ secrets.GH_PAT }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -24,6 +24,10 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
+
+      - name: Fetch latest from main and set local main branch
+        run: |
+          git fetch origin main:main
 
       - name: Version Packages
         run: npx changeset version
@@ -40,8 +44,5 @@ jobs:
             echo "No changes to commit"
             exit 0
           fi
-          git fetch origin main # Fetch the latest commits from the main branch
-          git reset --hard origin/main # Reset to match the remote main branch
-          git add -A # Add your changes again
           git commit -m "Version packages and update changelog [skip ci]"
           git push origin HEAD:main
