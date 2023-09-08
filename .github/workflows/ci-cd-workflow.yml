@@ -44,7 +44,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Lint
-        run: npm run lint
+        run: ng lint
 
   build:
     needs: setup-node
