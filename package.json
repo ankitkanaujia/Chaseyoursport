@@ -1,6 +1,6 @@
 {
   "name": "chaseyoursport",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "prestart": "node -e \"if (process.version !== 'v16.18.0') throw new Error('Please use Node.js v16.18.0')\"",
