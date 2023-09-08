@@ -45,6 +45,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.18.0
+          npm-version: 8.19.2
       - name: Install Dependencies
         run: npm ci
 
@@ -54,10 +55,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.18.0
       - name: Install Angular CLI
         run: npm install -g @angular/cli
       - name: Install Project Dependencies
@@ -71,16 +68,23 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.18.0
+
       - name: Install Angular CLI
         run: npm install -g @angular/cli
+
       - name: Install Project Dependencies
         run: npm ci
-      - name: Build
+
+      - name: Setup Sentry CLI Config
+        run: |
+          echo "[auth]" >> .sentryclirc
+          echo "token=${{ secrets.SENTRY_AUTH_TOKEN }}" >> .sentryclirc
+          # ... any other configuration lines you might have in your local .sentryclirc
+
+      - name: Build and upload to Sentry
         run: npm run build:ssr
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
   test:
     needs: build
@@ -88,10 +92,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.18.0
       - name: Install Angular CLI
         run: npm install -g @angular/cli
       - name: Install Project Dependencies
