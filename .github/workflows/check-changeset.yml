@@ -1,11 +1,9 @@
 name: Check for Changesets
-id: check-changesets
+
 on:
   pull_request:
     branches:
       - main
-    paths:
-      - '.changeset/*.md'
 
 jobs:
   check:
