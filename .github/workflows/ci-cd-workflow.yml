@@ -55,6 +55,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Check npm version
+        run: npm --version
+      - name: Directly run ng lint
+        run: npx ng lint
       - name: Lint
         run: npm run lint
 
