@@ -68,6 +68,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+      - name: Install Project Dependencies
+        run: npm ci
       - name: Build
         run: npm run build:ssr
 
@@ -77,6 +81,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+      - name: Install Project Dependencies
+        run: npm ci
       - name: Unit Tests
         run: npm run test:ci
 
