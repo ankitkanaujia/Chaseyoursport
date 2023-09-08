@@ -22,10 +22,11 @@ export function app(): express.Express {
   // Enable gzip compression
   server.use(compression());
   server.use((req, res, next) => {
-    res.setHeader(
-      'Content-Security-Policy',
-      "default-src 'self'; img-src 'self' https:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self';"
-    );
+    // res.setHeader(
+    //   'Content-Security-Policy',
+    //   "default-src 'self'; script-src 'self' 'nonce-<base64-value>' https://cdn.ingest-lr.com https://o4505556772257792.ingest.sentry.io; style-src 'self' 'nonce-<base64-value>'; worker-src 'self' blob:; connect-src 'self' https://o4505556772257792.ingest.sentry.io;"
+    // );
+
     next();
   });
 

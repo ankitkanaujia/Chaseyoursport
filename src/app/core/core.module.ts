@@ -5,10 +5,18 @@ import { RouterModule } from '@angular/router';
 
 import { NavigationComponent } from './navigation/navigation.component';
 import { FooterComponent } from './footer/footer.component';
+import { ButtonModule } from 'primeng/button';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [NavigationComponent, FooterComponent],
-  imports: [CommonModule, HttpClientModule, RouterModule],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    RouterModule,
+    ButtonModule,
+    FormsModule
+  ],
   exports: [NavigationComponent, FooterComponent],
   providers: []
 })
