@@ -1,0 +1,98 @@
+name: CI/CD Pipeline
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Verify changeset
+        run: |
+          CHANGES=$(find .changeset -name '*.md' -not -name '.README.md' | wc -l)
+          if [ "$CHANGES" -eq "0" ]; then
+            echo "Error: No valid changesets found. Please add a changeset before merging."
+            exit 1
+          else
+            echo "Valid changeset found. Proceeding..."
+          fi
+
+  setup-node:
+    needs: changelog
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - name: Install Dependencies
+        run: npm install
+
+  lint:
+    needs: setup-node
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Lint
+        run: npm run lint
+
+  build:
+    needs: setup-node
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build
+        run: npm run build:ssr
+
+  test:
+    needs: setup-node
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Unit Tests
+        run: npm run test:ci
+
+  version:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [lint, build, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_PAT }}
+      - name: Fetch latest from main and reset local main branch
+        run: |
+          git fetch origin
+          git reset --hard origin/main
+      - name: Version Packages
+        run: npx changeset version
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+      - name: Commit and Push Changes
+        run: |
+          git add -A
+          git commit -m "Version packages and update changelog [skip ci]"
+          git push
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy (modify this as per your deployment strategy)
+        run: |
+          # This is a placeholder. Replace this with your actual deployment steps.
+          echo "Deploying..."
