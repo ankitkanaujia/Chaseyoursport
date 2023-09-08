@@ -16,6 +16,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.GH_PAT }}
+          ref: main
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -25,9 +26,10 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Fetch latest from main and set local main branch
+      - name: Fetch latest from main and reset local main branch
         run: |
-          git fetch origin main:main
+          git fetch origin
+          git reset --hard origin/main
 
       - name: Version Packages
         run: npx changeset version
@@ -45,4 +47,4 @@ jobs:
             exit 0
           fi
           git commit -m "Version packages and update changelog [skip ci]"
-          git push origin HEAD:main
+          git push origin main
