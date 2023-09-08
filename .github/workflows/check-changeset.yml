@@ -1,0 +1,26 @@
+name: Check for Changesets
+id: check-changesets
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.changeset/*.md'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Verify changeset
+        run: |
+          CHANGES=$(find .changeset -name '*.md' -not -name '.README.md' | wc -l)
+          if [ "$CHANGES" -eq "0" ]; then
+            echo "Error: No valid changesets found. Please add a changeset before merging."
+            exit 1
+          else
+            echo "Valid changeset found. Proceeding..."
+          fi
