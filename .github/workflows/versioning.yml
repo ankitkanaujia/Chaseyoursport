@@ -40,5 +40,8 @@ jobs:
             echo "No changes to commit"
             exit 0
           fi
+          git fetch origin main # Fetch the latest commits from the main branch
+          git reset --hard origin/main # Reset to match the remote main branch
+          git add -A # Add your changes again
           git commit -m "Version packages and update changelog [skip ci]"
           git push origin HEAD:main
