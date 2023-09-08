@@ -1,0 +1,36 @@
+name: Automatic Versioning
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Version Packages
+        run: npx changeset version
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          if [ -z "$(git diff --cached --exit-code)" ]; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Version packages and update changelog [skip ci]"
+          git push
