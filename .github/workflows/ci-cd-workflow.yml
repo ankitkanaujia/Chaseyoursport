@@ -55,6 +55,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.18.0
       - name: Install Angular CLI
         run: npm install -g @angular/cli
       - name: Install Project Dependencies
@@ -68,13 +72,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.18.0
       - name: Install Angular CLI
         run: npm install -g @angular/cli
-
       - name: Install Project Dependencies
         run: npm ci
-
       - name: Setup Sentry CLI Config
         run: |
           echo "[auth]" >> .sentryclirc
@@ -92,6 +97,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.18.0
       - name: Install Angular CLI
         run: npm install -g @angular/cli
       - name: Install Project Dependencies
