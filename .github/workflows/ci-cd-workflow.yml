@@ -28,8 +28,6 @@ jobs:
     needs: changelog
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -44,7 +42,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Lint
-        run: ng lint
+        run: npm run lint
 
   build:
     needs: setup-node
